@@ -1,0 +1,11 @@
+framework module CWXML {
+  umbrella header "CWXML.h"
+
+  export *
+  module * { export * }
+}
+
+module CWXML.Swift {
+    header "CWXML-Swift.h"
+    requires objc
+}
