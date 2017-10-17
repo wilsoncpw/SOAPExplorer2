@@ -13,12 +13,12 @@ class SOAPTableCellView: NSTableCellView {
     @IBOutlet weak var label: NSTextField!
     override var objectValue: Any? {
         didSet {
-            guard let wsdl = objectValue as? WSDL else {
+            guard let webService = objectValue as? WebService else {
                 return
             }
             
-            textField?.stringValue = wsdl.serviceName
-            label.stringValue = wsdl.url?.lastPathComponent ?? "Unknown"
+            textField?.stringValue = webService.serviceName
+            label.stringValue = webService.url?.lastPathComponent ?? "Unknown"
         }
     }
 

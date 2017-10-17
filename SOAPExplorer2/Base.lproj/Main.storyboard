@@ -889,13 +889,76 @@
                                     <binding destination="QNE-Je-NH5" name="value" keyPath="serviceName" id="hUH-J2-N7g"/>
                                 </connections>
                             </textField>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kC6-m0-pjj">
+                                <rect key="frame" x="18" y="227" width="414" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="vTX-dG-nyW"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="wsdlName" id="bsS-Bw-vyc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="QNE-Je-NH5" name="value" keyPath="wsdlName" id="D6d-ng-HaW"/>
+                                </connections>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sfa-ak-qeo">
+                                <rect key="frame" x="18" y="199" width="85" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="aZN-oh-dOU"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Service Ports" id="MYJ-Do-Eh7">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="QNE-Je-NH5" name="hidden" keyPath="hasWebService" id="MPg-t9-zxJ">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </textField>
+                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2TJ-Lv-G1H">
+                                <rect key="frame" x="109" y="195" width="324" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="dmP-wq-ZMH"/>
+                                </constraints>
+                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="i3f-Jp-sAN">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </comboBoxCell>
+                                <connections>
+                                    <binding destination="QNE-Je-NH5" name="hidden" keyPath="hasWebService" id="l5E-po-vB3">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <outlet property="dataSource" destination="QNE-Je-NH5" id="OCI-y8-dnp"/>
+                                    <outlet property="delegate" destination="QNE-Je-NH5" id="2LJ-Uf-EKX"/>
+                                </connections>
+                            </comboBox>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="IHM-y7-x4y" secondAttribute="trailing" constant="20" id="2Wr-Bl-NbS"/>
+                            <constraint firstAttribute="trailing" secondItem="kC6-m0-pjj" secondAttribute="trailing" constant="20" id="6fF-Fz-Hr7"/>
+                            <constraint firstAttribute="trailing" secondItem="2TJ-Lv-G1H" secondAttribute="trailing" constant="20" id="A78-Wb-wbo"/>
                             <constraint firstItem="IHM-y7-x4y" firstAttribute="top" secondItem="Uun-w6-Mqx" secondAttribute="top" constant="20" id="BzQ-La-3ws"/>
+                            <constraint firstItem="sfa-ak-qeo" firstAttribute="top" secondItem="kC6-m0-pjj" secondAttribute="bottom" constant="11" id="DFK-Ar-9zF"/>
+                            <constraint firstItem="sfa-ak-qeo" firstAttribute="leading" secondItem="Uun-w6-Mqx" secondAttribute="leading" constant="20" id="Dme-hs-VGr"/>
+                            <constraint firstItem="2TJ-Lv-G1H" firstAttribute="baseline" secondItem="sfa-ak-qeo" secondAttribute="baseline" id="EKK-Qq-ASZ"/>
+                            <constraint firstItem="2TJ-Lv-G1H" firstAttribute="leading" secondItem="sfa-ak-qeo" secondAttribute="trailing" constant="8" id="OyY-jE-51u"/>
+                            <constraint firstItem="kC6-m0-pjj" firstAttribute="leading" secondItem="Uun-w6-Mqx" secondAttribute="leading" constant="20" id="PCr-3o-Voh"/>
                             <constraint firstItem="IHM-y7-x4y" firstAttribute="leading" secondItem="Uun-w6-Mqx" secondAttribute="leading" constant="20" id="ozs-6x-B6T"/>
+                            <constraint firstItem="kC6-m0-pjj" firstAttribute="top" secondItem="IHM-y7-x4y" secondAttribute="bottom" constant="8" id="x6z-3m-NiA"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="servicePortsCombo" destination="2TJ-Lv-G1H" id="sor-8S-grF"/>
+                    </connections>
                 </viewController>
                 <customObject id="uUf-s1-pMc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="Rkk-ng-ZJl"/>

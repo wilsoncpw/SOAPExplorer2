@@ -7,17 +7,24 @@
 //
 
 import Foundation
+import CWXML
+
+let soapExplorerData = SOAPExplorer2Data.instance
 
 class SOAPExplorer2Data {
     static let instance = SOAPExplorer2Data ()
     
-    private (set) var wsdls = [WSDL] ()
+    private (set) var webServices = [WebService] ()
     
     private init () {
         
     }
     
-    func addWSDL (wsdl: WSDL) {
-        wsdls.append(wsdl)
+    func loadWebService (url: URL) throws {
+        let doc = try CWXMLParser.init(url: url).parse()
+        let webService = try WebService.init(doc: doc, url: url)
+        webServices.append (webService)
     }
+    
+    
 }

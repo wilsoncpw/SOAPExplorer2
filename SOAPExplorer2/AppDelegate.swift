@@ -56,14 +56,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private func openWSDLDocument (url: URL) {
         do {
-            let parser = try CWXMLParser (url: url)
-            guard let wsdl = try parser.parse(docType: WSDL.self) as? WSDL else {
-                throw WSDLError.notWSDL
-            }
             
-            try wsdl.parse ()
-            
-            data.addWSDL(wsdl: wsdl)
+            try data.loadWebService(url: url)
             
             NSDocumentController.shared.noteNewRecentDocumentURL(url)
             NotificationCenter.default.post(name: .onLoaded, object: nil)

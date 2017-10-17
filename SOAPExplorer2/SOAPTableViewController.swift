@@ -23,14 +23,14 @@ class SOAPTableViewController: NSViewController, NSTableViewDataSource, NSTableV
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return data.wsdls.count
+        return data.webServices.count
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         var rv : NSView? = nil
         if let id = tableColumn?.identifier, let view = tableView.makeView(withIdentifier: id, owner: tableView) as? SOAPTableCellView {
             
-            view.objectValue = data.wsdls [row]
+            view.objectValue = data.webServices [row]
             rv = view
         }
         
@@ -42,10 +42,10 @@ class SOAPTableViewController: NSViewController, NSTableViewDataSource, NSTableV
     }
     
     private func selectService (idx: Int) {
-        guard idx >= 0 && idx < data.wsdls.count else {
+        guard idx >= 0 && idx < data.webServices.count else {
             NotificationCenter.default.post(name: .onSelectService, object: nil)
             return
         }
-        NotificationCenter.default.post(name: .onSelectService, object: data.wsdls [idx])
+        NotificationCenter.default.post(name: .onSelectService, object: data.webServices [idx])
     }
 }
