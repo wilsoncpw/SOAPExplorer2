@@ -17,9 +17,9 @@
 		26407D771F9564D1007E8512 /* SOAPExplorer2Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26407D751F9564D1007E8512 /* SOAPExplorer2Data.swift */; };
 		26407D7B1F956650007E8512 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26407D791F956650007E8512 /* Main.storyboard */; };
 		26407D831F9570E2007E8512 /* ServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26407D821F9570E2007E8512 /* ServiceViewController.swift */; };
+		269AFEDA1F96D66B00B742D8 /* CWXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 269AFED91F96D66B00B742D8 /* CWXML.framework */; };
+		269AFEDB1F96D66B00B742D8 /* CWXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 269AFED91F96D66B00B742D8 /* CWXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		26D1EB831F9622790050ED1F /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D1EB821F9622790050ED1F /* WebService.swift */; };
-		26D1EB851F964DEE0050ED1F /* CWXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D1EB841F964DEE0050ED1F /* CWXML.framework */; };
-		26D1EB861F964DEE0050ED1F /* CWXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 26D1EB841F964DEE0050ED1F /* CWXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,7 +29,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				26D1EB861F964DEE0050ED1F /* CWXML.framework in Embed Frameworks */,
+				269AFEDB1F96D66B00B742D8 /* CWXML.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,11 +47,11 @@
 		26407D751F9564D1007E8512 /* SOAPExplorer2Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SOAPExplorer2Data.swift; path = SOAPExplorer2/SOAPExplorer2Data.swift; sourceTree = "<group>"; };
 		26407D7A1F956650007E8512 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SOAPExplorer2/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		26407D821F9570E2007E8512 /* ServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewController.swift; sourceTree = "<group>"; };
+		269AFED91F96D66B00B742D8 /* CWXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CWXML.framework; sourceTree = "<group>"; };
 		26B6E2921ED5A18900374AF4 /* SOAPExplorer2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SOAPExplorer2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26B6E29E1ED5A18900374AF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SOAPExplorer2/Info.plist; sourceTree = "<group>"; };
 		26B6E2A41ED5A19E00374AF4 /* SOAPExplorer2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SOAPExplorer2.entitlements; path = SOAPExplorer2/SOAPExplorer2.entitlements; sourceTree = "<group>"; };
 		26D1EB821F9622790050ED1F /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
-		26D1EB841F964DEE0050ED1F /* CWXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CWXML.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26D1EB851F964DEE0050ED1F /* CWXML.framework in Frameworks */,
+				269AFEDA1F96D66B00B742D8 /* CWXML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +69,7 @@
 		26B6E2891ED5A18900374AF4 = {
 			isa = PBXGroup;
 			children = (
-				26D1EB841F964DEE0050ED1F /* CWXML.framework */,
+				269AFED91F96D66B00B742D8 /* CWXML.framework */,
 				26B6E2941ED5A18900374AF4 /* SOAPExplorer2 */,
 				26B6E2931ED5A18900374AF4 /* Products */,
 				26B6E2A61ED5A1DA00374AF4 /* Frameworks */,

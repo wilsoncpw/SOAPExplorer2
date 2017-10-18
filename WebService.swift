@@ -22,20 +22,40 @@ public enum WSDLError : Error {
     case moreThanOnePortTypeElement
     case missingNameAttribute
     case missingBindingInServicePort
+    case invalidNamespace
 }
 
 
 class NamedWSDLObject {
     
+    let targetNamespace: String
     let name: String
+    let elem: CWXMLElement
+    let namespace: String
+    let localName: String
     
-    init (elem: CWXMLElement) throws {
+    init (targetNamespace: String, elem: CWXMLElement) throws {
         guard let attrName = elem.attribute(forName: "name") else {
             throw WSDLError.missingNameAttribute
         }
         self.name = attrName
+        self.elem = elem
+        self.targetNamespace = targetNamespace
+        
+        let qx = splitQName(qname: attrName)
+        let _namespace = qx.prefix == "" ? targetNamespace : elem.namespace(forPrefix: qx.prefix)
+        if _namespace == nil {
+            throw WSDLError.invalidNamespace
+        }
+        namespace = _namespace!
+        localName = qx.localName
     }
     
+    func matchesQName (_ qname: String) -> Bool {
+        let qx = splitQName(qname: qname)
+        let _namespace = qx.prefix == "" ? targetNamespace : elem.namespace(forPrefix: qx.prefix)
+        return qx.localName == localName && _namespace == namespace
+    }
 }
 
 class BindingWSDLObject: NamedWSDLObject {
@@ -45,14 +65,14 @@ class BindingWSDLObject: NamedWSDLObject {
 class ServicePortWSDLObject: NamedWSDLObject {
     let binding: BindingWSDLObject
     
-    init (elem: CWXMLElement, bindings: [BindingWSDLObject]) throws {
+    init (targetNamespace: String, elem: CWXMLElement, bindings: [BindingWSDLObject]) throws {
         guard let bindingName = elem.attribute(forName: "binding") else {
             throw WSDLError.missingBindingInServicePort
         }
         
         let _bindingObj = bindings.first {
             obj in
-            return obj.name == bindingName
+            return obj.matchesQName(bindingName)
         }
         
         guard let bindingObj = _bindingObj else {
@@ -61,7 +81,7 @@ class ServicePortWSDLObject: NamedWSDLObject {
         
         binding = bindingObj
     
-        try super.init(elem: elem)
+        try super.init(targetNamespace: targetNamespace, elem: elem)
     }
 }
 
@@ -118,13 +138,13 @@ class WebService {
         operationElements = portTypeElement.elements(forLocalName: "operation", uri: wsdlUri)
         let _bindingObjects = try root.elements(forLocalName: "binding", uri: wsdlUri).map {
             elem in
-            return try BindingWSDLObject.init(elem: elem)
+            return try BindingWSDLObject.init(targetNamespace: targetNamespaceURI, elem: elem)
         }
         bindingObjects = _bindingObjects
         
         servicePortObjects = try serviceElement.elements(forLocalName: "port", uri: wsdlUri).map {
             elem in
-            return try ServicePortWSDLObject.init(elem: elem, bindings: _bindingObjects)
+            return try ServicePortWSDLObject.init(targetNamespace: targetNamespaceURI, elem: elem, bindings: _bindingObjects)
         }
     }
     
