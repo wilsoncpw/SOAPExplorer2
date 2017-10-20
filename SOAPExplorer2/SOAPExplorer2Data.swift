@@ -11,7 +11,13 @@ import CWXML
 
 let soapExplorerData = SOAPExplorer2Data.instance
 
+protocol ImportXSDDelegate {
+    func getURLForXSD (fileName: String, suggessted: URL?) -> URL?
+}
+
 class SOAPExplorer2Data {
+    var importXSDDelegate : ImportXSDDelegate?
+    
     static let instance = SOAPExplorer2Data ()
     
     private (set) var webServices = [WebService] ()

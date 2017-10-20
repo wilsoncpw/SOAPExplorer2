@@ -17,7 +17,7 @@ class SOAPTableCellView: NSTableCellView {
                 return
             }
             
-            textField?.stringValue = webService.serviceName
+            textField?.stringValue = webService.service.name
             label.stringValue = webService.url?.lastPathComponent ?? "Unknown"
         }
     }

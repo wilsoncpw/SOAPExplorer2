@@ -10,12 +10,29 @@ import Cocoa
 import CWXML
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, ImportXSDDelegate {
+    func getURLForXSD(fileName: String, suggessted: URL?) -> URL? {
+        
+        let openPanel = NSOpenPanel ()
+        
+        openPanel.canChooseDirectories = true
+        openPanel.canChooseFiles = false
+        openPanel.directoryURL = suggessted
+        
+        openPanel.message = "Select directory that contains the schema " + fileName
+        
+        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
+            return openPanel.url?.appendingPathComponent(fileName)
+        }
+        
+        return nil
+    }
+    
     
     let data = SOAPExplorer2Data.instance
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        soapExplorerData.importXSDDelegate = self
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

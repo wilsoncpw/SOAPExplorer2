@@ -18,9 +18,18 @@ class ServiceViewController: NSViewController, NSComboBoxDelegate, NSComboBoxDat
         }
     }
     
+    var currentServicePort: ServicePort? = nil {
+        didSet {
+            servicePortAddress = currentServicePort?.url ?? ""
+            
+            NotificationCenter.default.post(name: .onSelectServicePort, object: currentServicePort)
+        }
+    }
+    
     @objc dynamic var serviceName = ""
     @objc dynamic var wsdlName = ""
     @objc dynamic var hasWebService = false
+    @objc dynamic var servicePortAddress = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +47,7 @@ class ServiceViewController: NSViewController, NSComboBoxDelegate, NSComboBoxDat
     private func selectService (webService: WebService?) {
         currentService = webService
         if let webService = webService {
-            serviceName = webService.serviceName
+            serviceName = webService.service.name
             wsdlName = webService.url?.path ?? ""
         } else {
             serviceName = ""
@@ -46,14 +55,29 @@ class ServiceViewController: NSViewController, NSComboBoxDelegate, NSComboBoxDat
         }
         
         servicePortsCombo.reloadData()
+        servicePortsCombo.selectItem(at: 0)
+        setServicePort (idx: 0)
+    }
+    
+    private func setServicePort (idx: Int) {
+        guard let currentService = currentService, idx < currentService.service.servicePorts.count else {
+            currentServicePort = nil
+            return
+        }
+        
+        currentServicePort = currentService.service.servicePorts [idx]
     }
     
     func numberOfItems(in comboBox: NSComboBox) -> Int {
-        return currentService?.servicePortObjects.count ?? 0
+        return currentService?.service.servicePorts.count ?? 0
     }
     
     func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        return currentService?.servicePortObjects [index].name
+        return currentService?.service.servicePorts [index].name
+    }
+    
+    func comboBoxSelectionDidChange(_ notification: Notification) {
+        setServicePort (idx: servicePortsCombo.indexOfSelectedItem)
     }
     
 }

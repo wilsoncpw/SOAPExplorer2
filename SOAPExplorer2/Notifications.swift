@@ -11,4 +11,5 @@ import Foundation
 extension Notification.Name {
     static let onLoaded = Notification.Name ("loaded")
     static let onSelectService = Notification.Name ("selectService")
+    static let onSelectServicePort = Notification.Name ("selectServicePort")
 }
