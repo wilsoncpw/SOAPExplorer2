@@ -9,20 +9,15 @@
 import Foundation
 import CWXML
 
-public enum WSDLError : Error {
-    case fileNotFound
-    case notWSDL
-    case missingTargetNamespace
-    case noSingleServiceElement
-    case noSingleTypesElement
-    case noSinglePortTypeElement
-    case missingNameAttribute
-    case missingBindingInServicePort
-    case noSingleAddressInServicePort
-    case invalidNamespace
-    case missingTypeInBinding
-    case noSingleBindingInBinding
-    case missingOperationForBinding
+struct WebServiceError: Error {
+    let message: String
+    init (_ message: String) {
+        self.message = message
+    }
+    
+    var localizedDescription: String {
+        return message
+    }
 }
 
 class WSDLObject {
@@ -44,14 +39,14 @@ class NamedWSDLObject: WSDLObject {
     
     override init (targetNamespace: String, elem: CWXMLElement) throws {
         guard let attrName = elem.attribute(forName: "name") else {
-            throw WSDLError.missingNameAttribute
+            throw WebServiceError ("Named Object \(elem.name) missing name attribute")
         }
         self.name = attrName
 
         let qx = splitQName(qname: attrName)
         let _namespace = qx.prefix == "" ? targetNamespace : elem.namespace(forPrefix: qx.prefix)
         if _namespace == nil {
-            throw WSDLError.invalidNamespace
+            throw WebServiceError ("Undefined namespace in name attribute for \(elem.name)")
         }
         namespace = _namespace!
         localName = qx.localName
@@ -87,6 +82,45 @@ class Message: NamedWSDLObject {
 }
 
 class PortTypeOperation : NamedWSDLObject {
+    let inputMessage: Message
+    let outputMessage: Message?
+    
+    init(targetNamespace: String, elem: CWXMLElement, wsdlUri: String, messages: [Message]) throws {
+        
+        let inputMessageElement = try WebService.getSingleChild(elem: elem, localChildName: "input", uri: wsdlUri, error: "Expecting single input message in Port Type")
+        guard let messageName = inputMessageElement.attribute(forName: "message") else {
+            throw WebServiceError ("Input message for Port Type has no 'message' attribute")
+        }
+        let im = messages.first(where:) {
+            message in
+            return message.matchesQName(messageName)
+        }
+        guard let imx = im else {
+            throw WebServiceError ("Undefined input message \(messageName) in Port Type")
+        }
+        inputMessage = imx
+        
+        let outputElements = elem.elements(forLocalName: "output", namespaceUri: wsdlUri)
+        if let outputElement = outputElements.first {
+            guard let messageName = outputElement.attribute(forName: "message") else {
+                throw WebServiceError ("Output message name not defined for Port Type")
+            }
+            
+            let om = messages.first(where:) {
+                message in
+                return message.matchesQName(messageName)
+            }
+            guard let omx = om else {
+                throw WebServiceError ("Undefined output mesage \(messageName) for Port Type")
+            }
+            outputMessage = omx
+        } else {
+            outputMessage = nil
+        }
+
+        
+        try super.init(targetNamespace: targetNamespace, elem: elem)
+    }
     
 }
 
@@ -97,11 +131,11 @@ class BindingOperation: NamedWSDLObject {
     init (targetNamespace: String, elem: CWXMLElement, portType:PortType) throws {
         
         guard let attrName = elem.attribute(forName: "name") else {
-            throw WSDLError.missingNameAttribute
+            throw WebServiceError ("Binding Operation for Port Type \(portType.name) missing name attribute")
         }
         
         guard let portTypeOperation = portType.findOperation(name: attrName) else {
-            throw WSDLError.missingOperationForBinding
+            throw WebServiceError ("Undefined operation \(attrName) in Binding Operation for PortType \(portType.name)")
         }
     
         self.portTypeOperation = portTypeOperation
@@ -117,15 +151,9 @@ class Binding : NamedWSDLObject {
     init (targetNamespace: String, elem: CWXMLElement, portType: PortType) throws {
         
         guard let _type = elem.attribute(forName: "type") else {
-            throw WSDLError.missingTypeInBinding
+            throw WebServiceError ("Binding messaging 'type' atribute")
         }
         type = _type
-        
-/*
-         let binding = try WebService.getSingleChild(elem: elem, localChildName: "binding", uri: nil, missingErr: .missingBindingInBinding, moreThanOneErr: .moreThanOneBindingInBinding)
-        
-        binding.prefix
- */
         
         let operationElements = elem.elements(forLocalName: "operation", namespaceUri: elem.namespaceUri)
         bindingOperations = try operationElements.map () {
@@ -142,7 +170,7 @@ class ServicePort: NamedWSDLObject {
     
     init (targetNamespace: String, elem: CWXMLElement, bindings: [Binding]) throws {
         guard let bindingName = elem.attribute(forName: "binding") else {
-            throw WSDLError.missingBindingInServicePort
+            throw WebServiceError ("Service Port missing 'binding' attribute")
         }
         
         let _bindingObj = bindings.first {
@@ -151,15 +179,15 @@ class ServicePort: NamedWSDLObject {
         }
         
         guard let bindingObj = _bindingObj else {
-            throw WSDLError.missingBindingInServicePort
+            throw WebServiceError ("Undefined binding \(bindingName) in Service Port")
         }
         
         binding = bindingObj
         
-        let addressElem = try WebService.getSingleChild (elem: elem, localChildName: "address", uri: nil, error: .noSingleAddressInServicePort)
+        let addressElem = try WebService.getSingleChild (elem: elem, localChildName: "address", uri: nil, error: "Single 'address' element expected in Service Port definition")
         
         guard let location = addressElem.attribute(forName: "location") else {
-            throw WSDLError.noSingleAddressInServicePort
+            throw WebServiceError ("Address element in Service Port definition requires 'location' attribute")
         }
         url = location
         
@@ -170,11 +198,11 @@ class ServicePort: NamedWSDLObject {
 class PortType: NamedWSDLObject {
     let operations: [PortTypeOperation]
     
-    init (targetNamespace: String, elem: CWXMLElement, wsdlUri: String) throws {
+    init (targetNamespace: String, elem: CWXMLElement, wsdlUri: String, messages: [Message]) throws {
         let operationElements = elem.elements(forLocalName: "operation", namespaceUri: wsdlUri)
         let _portTypeOperations = try operationElements.map () {
             elem in
-            return try PortTypeOperation (targetNamespace: targetNamespace, elem: elem)
+            return try PortTypeOperation (targetNamespace: targetNamespace, elem: elem, wsdlUri: wsdlUri, messages: messages)
         }
         operations = _portTypeOperations
         try super.init(targetNamespace: targetNamespace, elem: elem)
@@ -220,8 +248,6 @@ class Types: WSDLObject {
     }
 }
 
-
-
 class WebService {
     
     let wsdlTypes = ["http://www.w3.org/ns/wsdl":"WSDL2", "http://schemas.xmlsoap.org/wsdl/" :"WSDL1.1"]
@@ -238,67 +264,58 @@ class WebService {
     let bindings: [Binding]
     
     init (doc: CWXMLDocument, url: URL) throws {
-        self.doc = doc
-        self.url = url
-        
-        guard let root = doc.rootElement else {
-            throw WSDLError.notWSDL
-        }
-        
-        guard let wsdlUri = root.resolveNamespace(forName: root.name) else {
-            throw WSDLError.notWSDL
+        guard let root = doc.rootElement, let wsdlUri = root.resolveNamespace(forName: root.name) else {
+            throw WebServiceError ("Not a web service document")
         }
         
         guard let _wsdlType =  wsdlTypes [wsdlUri] else {
-            throw WSDLError.notWSDL
+            throw WebServiceError ("Unsupported web service format \(wsdlUri)")
         }
+        
+        self.doc = doc
+        self.url = url
         self.wsdlType = _wsdlType
+        self.targetNamespaceURI = root.attribute(forName: "targetNamespace") ?? ""
         
-        guard let _targetNamespaceURI = root.attribute(forName: "targetNamespace") else {
-            throw WSDLError.notWSDL
-        }
-        self.targetNamespaceURI = _targetNamespaceURI
-        
-        
-        let typesElement = try WebService.getSingleChild(elem: root, localChildName: "types", uri: wsdlUri, error: .noSingleTypesElement)
+        let typesElement = try WebService.getSingleChild(elem: root, localChildName: "types", uri: wsdlUri, error: "Single 'types' element expected")
         types = try Types (targetNamespace: targetNamespaceURI, elem: typesElement)
         
         let messageElements = root.elements(forLocalName: "message", namespaceUri: wsdlUri)
-        messages = try WebService.mapMessageElementsToMessages(elements: messageElements, targetNamespace: targetNamespaceURI, wsdlUri: wsdlUri)
+        messages = try WebService.mapElementsToMessages(elements: messageElements, targetNamespace: targetNamespaceURI, wsdlURI: wsdlUri)
         
-        let portTypeElement = try WebService.getSingleChild(elem: root, localChildName: "portType", uri: wsdlUri, error: .noSinglePortTypeElement)
-        portType = try PortType(targetNamespace: targetNamespaceURI, elem: portTypeElement, wsdlUri: wsdlUri)
+        let portTypeElement = try WebService.getSingleChild(elem: root, localChildName: "portType", uri: wsdlUri, error: "Single 'portType' element expected")
+        portType = try PortType(targetNamespace: targetNamespaceURI, elem: portTypeElement, wsdlUri: wsdlUri, messages: messages)
         
         let bindingElements = root.elements(forLocalName: "binding", namespaceUri: wsdlUri)
-        bindings = try WebService.mapBindingElementsToBindings(elements: bindingElements, targetNamespace: targetNamespaceURI, portType: portType)
+        bindings = try WebService.mapElementsToBindings(elements: bindingElements, targetNamespace: targetNamespaceURI, portType: portType)
         
-        let serviceElement = try WebService.getSingleChild(elem: root, localChildName: "service", uri: wsdlUri, error: .noSingleServiceElement)
+        let serviceElement = try WebService.getSingleChild(elem: root, localChildName: "service", uri: wsdlUri, error: "Single 'service' element expected")
         service = try Service (targetNamespace: targetNamespaceURI, elem: serviceElement, wsdlUri: wsdlUri, bindings: bindings)
     }
     
-    static fileprivate func getSingleChild (elem: CWXMLElement, localChildName: String, uri: String?, error: WSDLError) throws -> CWXMLElement {
-        let elements = elem.elements(forLocalName: localChildName, namespaceUri: uri)
-        
-        guard let rv = elements.first else {
-            throw error
+    static private func mapElementsToMessages (elements: [CWXMLElement], targetNamespace: String, wsdlURI : String) throws -> [Message] {
+        return try elements.map() {
+            elem in
+            return try Message (targetNamespace: targetNamespace, elem: elem, wsdlUri: wsdlURI)
         }
-        if elements.count > 1 {
-            throw error
-        }
-        return rv
     }
     
-    static private func mapBindingElementsToBindings (elements: [CWXMLElement], targetNamespace: String, portType : PortType) throws -> [Binding] {
-        return try elements.map () {
+    static private func mapElementsToBindings (elements: [CWXMLElement], targetNamespace: String, portType: PortType) throws -> [Binding] {
+        return try elements.map() {
             elem in
             return try Binding (targetNamespace: targetNamespace, elem: elem, portType: portType)
         }
     }
     
-    static private func mapMessageElementsToMessages (elements: [CWXMLElement], targetNamespace: String, wsdlUri: String) throws -> [Message] {
-        return try elements.map () {
-            elem in
-            return try Message (targetNamespace: targetNamespace, elem: elem, wsdlUri: wsdlUri)
+    static fileprivate func getSingleChild (elem: CWXMLElement, localChildName: String, uri: String?, error: String) throws -> CWXMLElement {
+        let elements = elem.elements(forLocalName: localChildName, namespaceUri: uri)
+        
+        guard let rv = elements.first else {
+            throw WebServiceError (error)
         }
+        if elements.count > 1 {
+            throw WebServiceError (error)
+        }
+        return rv
     }
 }

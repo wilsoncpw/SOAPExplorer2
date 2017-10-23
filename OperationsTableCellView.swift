@@ -27,6 +27,7 @@ class OperationsTableCellView: NSTableCellView {
             return
         }
         title.stringValue = operation.name
+        inputLabel.stringValue = operation.portTypeOperation.inputMessage.localName
+        outputLabel.stringValue = operation.portTypeOperation.outputMessage?.localName ?? ""
     }
-    
 }

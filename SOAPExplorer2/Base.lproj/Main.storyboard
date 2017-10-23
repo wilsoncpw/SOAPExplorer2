@@ -1070,7 +1070,7 @@
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="63" horizontalPageScroll="10" verticalLineScroll="63" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jMX-MO-3c4">
                                 <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                 <clipView key="contentView" id="WrT-Ln-xnu">
-                                    <rect key="frame" x="1" y="23" width="448" height="276"/>
+                                    <rect key="frame" x="1" y="0.0" width="448" height="299"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="61" headerView="ruH-qn-hLG" viewBased="YES" id="FYr-Pl-jy8">
@@ -1116,19 +1116,45 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Oh-To-tOq">
-                                                                    <rect key="frame" x="57" y="3" width="37" height="15"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <textField horizontalHuggingPriority="252" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="2Oh-To-tOq">
+                                                                    <rect key="frame" x="57" y="3" width="44" height="15"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="15" id="Uxe-d5-Sbd"/>
+                                                                    </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Output:" id="HTu-VS-bX2">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z61-cS-DUH">
-                                                                    <rect key="frame" x="57" y="22" width="37" height="15"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <textField horizontalHuggingPriority="252" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="Z61-cS-DUH">
+                                                                    <rect key="frame" x="57" y="22" width="44" height="15"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="15" id="hJE-pu-jbC"/>
+                                                                    </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="Zun-pN-ubx">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dWr-ed-Eyv">
+                                                                    <rect key="frame" x="105" y="22" width="339" height="15"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="15" id="MBP-2v-Nlt"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="opn-4W-h9e">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Det-eb-dga">
+                                                                    <rect key="frame" x="105" y="3" width="339" height="15"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="15" id="YGx-ip-Gf1"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="xn1-9d-OcZ">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1136,15 +1162,26 @@
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
+                                                                <constraint firstItem="2Oh-To-tOq" firstAttribute="leading" secondItem="Z61-cS-DUH" secondAttribute="leading" id="4vX-LO-LF5"/>
                                                                 <constraint firstAttribute="trailing" secondItem="UlE-U1-dvG" secondAttribute="trailing" constant="3" id="KHh-TG-gos"/>
                                                                 <constraint firstItem="OW8-Db-K7z" firstAttribute="top" secondItem="BwW-DE-pMA" secondAttribute="top" constant="3" id="Old-zx-9Ti"/>
                                                                 <constraint firstItem="UlE-U1-dvG" firstAttribute="top" secondItem="BwW-DE-pMA" secondAttribute="top" constant="3" id="SnB-Mf-kR2"/>
+                                                                <constraint firstItem="Z61-cS-DUH" firstAttribute="leading" secondItem="OW8-Db-K7z" secondAttribute="trailing" constant="24" id="T2M-oD-Mb8"/>
+                                                                <constraint firstItem="Det-eb-dga" firstAttribute="baseline" secondItem="2Oh-To-tOq" secondAttribute="baseline" id="T3L-Jy-tmm"/>
+                                                                <constraint firstItem="Det-eb-dga" firstAttribute="leading" secondItem="2Oh-To-tOq" secondAttribute="trailing" constant="8" id="TwK-D9-vVi"/>
+                                                                <constraint firstItem="dWr-ed-Eyv" firstAttribute="baseline" secondItem="Z61-cS-DUH" secondAttribute="baseline" id="VxP-1g-4fd"/>
+                                                                <constraint firstItem="2Oh-To-tOq" firstAttribute="top" secondItem="Z61-cS-DUH" secondAttribute="bottom" constant="4" id="e9q-7A-tJe"/>
+                                                                <constraint firstItem="Z61-cS-DUH" firstAttribute="top" secondItem="UlE-U1-dvG" secondAttribute="bottom" constant="4" id="eJP-5D-eHe"/>
+                                                                <constraint firstItem="Z61-cS-DUH" firstAttribute="trailing" secondItem="2Oh-To-tOq" secondAttribute="trailing" id="hcb-fr-zEw"/>
+                                                                <constraint firstItem="dWr-ed-Eyv" firstAttribute="leading" secondItem="Z61-cS-DUH" secondAttribute="trailing" constant="8" id="jKu-1Q-aGR"/>
                                                                 <constraint firstItem="UlE-U1-dvG" firstAttribute="leading" secondItem="OW8-Db-K7z" secondAttribute="trailing" constant="8" id="kD1-qi-2O5"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Det-eb-dga" secondAttribute="trailing" constant="3" id="rFp-fw-ot1"/>
                                                                 <constraint firstItem="OW8-Db-K7z" firstAttribute="leading" secondItem="BwW-DE-pMA" secondAttribute="leading" constant="3" id="u1v-1z-1ZS"/>
+                                                                <constraint firstAttribute="trailing" secondItem="dWr-ed-Eyv" secondAttribute="trailing" constant="3" id="vHe-Kv-u3a"/>
                                                             </constraints>
                                                             <connections>
-                                                                <outlet property="inputLabel" destination="Z61-cS-DUH" id="zjI-0w-NGj"/>
-                                                                <outlet property="outputLabel" destination="2Oh-To-tOq" id="w56-fK-y6S"/>
+                                                                <outlet property="inputLabel" destination="dWr-ed-Eyv" id="Xnb-nk-WPD"/>
+                                                                <outlet property="outputLabel" destination="Det-eb-dga" id="mKW-1j-r88"/>
                                                                 <outlet property="textField" destination="UlE-U1-dvG" id="bKx-cK-4nt"/>
                                                                 <outlet property="title" destination="UlE-U1-dvG" id="x0o-VA-qfq"/>
                                                             </connections>
