@@ -40,7 +40,7 @@ public class SchemaObject {
             return
         }
         
-        guard let children = xmlElement.children else {
+        guard let children = xmlElement.childElements else {
             return
         }
         

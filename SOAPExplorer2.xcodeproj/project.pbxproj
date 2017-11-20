@@ -20,8 +20,8 @@
 		26407D7B1F956650007E8512 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26407D791F956650007E8512 /* Main.storyboard */; };
 		26407D831F9570E2007E8512 /* ServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26407D821F9570E2007E8512 /* ServiceViewController.swift */; };
 		26502A681F9A2EC5002C10F4 /* XMLSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26502A671F9A2EC5002C10F4 /* XMLSchema.swift */; };
-		26502A6D1F9A4BED002C10F4 /* CWXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26502A6C1F9A4BED002C10F4 /* CWXML.framework */; };
-		26502A6E1F9A4BED002C10F4 /* CWXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 26502A6C1F9A4BED002C10F4 /* CWXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		26A1EC251FC2FF0800636D0A /* CWXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1EC241FC2FF0800636D0A /* CWXML.framework */; };
+		26A1EC261FC2FF0800636D0A /* CWXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 26A1EC241FC2FF0800636D0A /* CWXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		26D1EB831F9622790050ED1F /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D1EB821F9622790050ED1F /* WebService.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +32,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				26502A6E1F9A4BED002C10F4 /* CWXML.framework in Embed Frameworks */,
+				26A1EC261FC2FF0800636D0A /* CWXML.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53,7 +53,7 @@
 		26407D7A1F956650007E8512 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SOAPExplorer2/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		26407D821F9570E2007E8512 /* ServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewController.swift; sourceTree = "<group>"; };
 		26502A671F9A2EC5002C10F4 /* XMLSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLSchema.swift; sourceTree = "<group>"; };
-		26502A6C1F9A4BED002C10F4 /* CWXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CWXML.framework; sourceTree = "<group>"; };
+		26A1EC241FC2FF0800636D0A /* CWXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CWXML.framework; sourceTree = "<group>"; };
 		26B6E2921ED5A18900374AF4 /* SOAPExplorer2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SOAPExplorer2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26B6E29E1ED5A18900374AF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SOAPExplorer2/Info.plist; sourceTree = "<group>"; };
 		26B6E2A41ED5A19E00374AF4 /* SOAPExplorer2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SOAPExplorer2.entitlements; path = SOAPExplorer2/SOAPExplorer2.entitlements; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26502A6D1F9A4BED002C10F4 /* CWXML.framework in Frameworks */,
+				26A1EC251FC2FF0800636D0A /* CWXML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +75,7 @@
 		26B6E2891ED5A18900374AF4 = {
 			isa = PBXGroup;
 			children = (
-				26502A6C1F9A4BED002C10F4 /* CWXML.framework */,
+				26A1EC241FC2FF0800636D0A /* CWXML.framework */,
 				26B6E2941ED5A18900374AF4 /* SOAPExplorer2 */,
 				26B6E2931ED5A18900374AF4 /* Products */,
 				26B6E2A61ED5A1DA00374AF4 /* Frameworks */,
