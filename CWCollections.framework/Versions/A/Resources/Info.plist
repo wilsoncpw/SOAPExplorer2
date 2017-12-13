@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>17C88</string>
+	<string>17B1003</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>CWXML</string>
+	<string>CWCollections</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.colinwilson.CWXML</string>
+	<string>com.colinwilson.CWCollections</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>CWXML</string>
+	<string>CWCollections</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>

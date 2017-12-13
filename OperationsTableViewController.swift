@@ -7,8 +7,15 @@
 //
 
 import Cocoa
+import CWXML
 
 class OperationsTableViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+    
+    var currentOperation: BindingOperation? = nil {
+        didSet {
+            NotificationCenter.default.post(name: .onSelectOperation, object: currentOperation)
+        }
+    }
     
     @IBOutlet weak var operationsTableView: NSTableView!
     
@@ -52,5 +59,17 @@ class OperationsTableViewController: NSViewController, NSTableViewDataSource, NS
     private func selectServicePort (_ servicePort: ServicePort?) {
         currentServicePort = servicePort
     }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        
+        guard let servicePort = currentServicePort else {
+            currentOperation = nil
+            return
+        }
+        let row = operationsTableView.selectedRow
+        currentOperation = row == -1 ? nil : servicePort.binding.bindingOperations [row]
+    }
+    
+    
     
 }

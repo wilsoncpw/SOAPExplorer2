@@ -182,6 +182,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #pragma clang diagnostic ignored "-Wunknown-pragmas"
 #pragma clang diagnostic ignored "-Wnullability"
 
-SWIFT_MODULE_NAMESPACE_PUSH("CWXML")
+SWIFT_MODULE_NAMESPACE_PUSH("CWCollections")
 SWIFT_MODULE_NAMESPACE_POP
 #pragma clang diagnostic pop

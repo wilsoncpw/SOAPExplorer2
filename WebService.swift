@@ -21,12 +21,10 @@ struct WebServiceError: Error {
 }
 
 class WSDLObject {
-    let targetNamespace: String
     let elem: CWXMLElement
     
-    init (targetNamespace: String, elem: CWXMLElement) throws {
+    init (elem: CWXMLElement) throws {
         self.elem = elem
-        self.targetNamespace = targetNamespace
     }
 }
 
@@ -36,12 +34,14 @@ class NamedWSDLObject: WSDLObject {
     let name: String
     let namespace: String
     let localName: String
+    let targetNamespace: String
     
-    override init (targetNamespace: String, elem: CWXMLElement) throws {
+    init (elem: CWXMLElement, targetNamespace: String) throws {
         guard let attrName = elem.attribute(forName: "name") else {
             throw WebServiceError ("Named Object \(elem.name) missing name attribute")
         }
         self.name = attrName
+        self.targetNamespace = targetNamespace
 
         let qx = splitQName(qname: attrName)
         let _namespace = qx.prefix == "" ? targetNamespace : elem.namespace(forPrefix: qx.prefix)
@@ -51,7 +51,7 @@ class NamedWSDLObject: WSDLObject {
         namespace = _namespace!
         localName = qx.localName
         
-        try super.init(targetNamespace: targetNamespace, elem: elem)
+        try super.init(elem: elem)
     }
     
     func matchesQName (_ qname: String) -> Bool {
@@ -62,21 +62,35 @@ class NamedWSDLObject: WSDLObject {
 }
 
 class MessagePart : NamedWSDLObject {
-    
+    var schemaObj: SchemaObject?
+    init(elem: CWXMLElement, targetNamespace: String, types: Types) throws {
+        try super.init(elem: elem, targetNamespace: targetNamespace)
+        
+        
+        if let typeName = elem.attribute(forName: "type") {
+            let nmp = splitQName(qname: typeName)
+            schemaObj = types.findObjectInSchema (name: nmp.localName, namespace: elem.namespace(forPrefix: nmp.prefix), type: SchemaComplexType.self)
+
+        } else if let elementName = elem.attribute(forName: "element") {
+            let nmp = splitQName(qname: elementName)
+            
+            schemaObj = types.findObjectInSchema (name: nmp.localName, namespace: elem.namespace(forPrefix: nmp.prefix), type: SchemaElement.self)
+        }
+    }
 }
 
 class Message: NamedWSDLObject {
     let messageParts : [MessagePart]
     
-    init(targetNamespace: String, elem: CWXMLElement, wsdlUri: String) throws {
+    init(elem: CWXMLElement, targetNamespace: String, wsdlUri: String, types: Types) throws {
         let messagePartElements = elem.elements(forLocalName: "part", namespaceUri: wsdlUri)
         
         messageParts = try messagePartElements.map() {
             elem in
-            return try MessagePart (targetNamespace: targetNamespace, elem: elem)
+            return try MessagePart (elem: elem, targetNamespace: targetNamespace, types: types)
         }
         
-        try super.init(targetNamespace: targetNamespace, elem: elem)
+        try super.init(elem: elem, targetNamespace: targetNamespace)
     }
     
 }
@@ -119,7 +133,7 @@ class PortTypeOperation : NamedWSDLObject {
         }
 
         
-        try super.init(targetNamespace: targetNamespace, elem: elem)
+        try super.init(elem: elem, targetNamespace: targetNamespace)
     }
     
 }
@@ -139,7 +153,7 @@ class BindingOperation: NamedWSDLObject {
         }
     
         self.portTypeOperation = portTypeOperation
-        try super.init (targetNamespace: targetNamespace, elem: elem)
+        try super.init (elem: elem, targetNamespace: targetNamespace)
     }
 }
 
@@ -160,7 +174,7 @@ class Binding : NamedWSDLObject {
             elem in
             return try BindingOperation (targetNamespace: targetNamespace, elem: elem, portType: portType)
         }
-        try super.init(targetNamespace: targetNamespace, elem: elem)
+        try super.init(elem: elem, targetNamespace: targetNamespace)
     }
 }
 
@@ -191,7 +205,7 @@ class ServicePort: NamedWSDLObject {
         }
         url = location
         
-        try super.init(targetNamespace: targetNamespace, elem: elem)
+        try super.init(elem: elem, targetNamespace: targetNamespace)
     }
 }
 
@@ -205,7 +219,7 @@ class PortType: NamedWSDLObject {
             return try PortTypeOperation (targetNamespace: targetNamespace, elem: elem, wsdlUri: wsdlUri, messages: messages)
         }
         operations = _portTypeOperations
-        try super.init(targetNamespace: targetNamespace, elem: elem)
+        try super.init(elem: elem, targetNamespace: targetNamespace)
     }
     
     func findOperation (name: String) -> PortTypeOperation? {
@@ -226,25 +240,35 @@ class Service: NamedWSDLObject {
             return try ServicePort.init(targetNamespace: targetNamespace, elem: elem, bindings: bindings)
         }
         
-        try super.init(targetNamespace: targetNamespace, elem: elem)
+        try super.init(elem: elem, targetNamespace: targetNamespace)
     }
 }
 
 class Types: WSDLObject {
     let schemas: [Schema]
     
-    override init (targetNamespace: String, elem: CWXMLElement) throws {
+    override init (elem: CWXMLElement) throws {
         
         let schemaElements = elem.elements(forLocalName: "schema", namespaceUri: XSDURI)
-        schemas = try Types.mapSchemaElementsToSchemas(schemaElements: schemaElements, targetNamespace: targetNamespace)
-        try super.init(targetNamespace: targetNamespace, elem: elem)
+        schemas = try Types.mapSchemaElementsToSchemas(schemaElements: schemaElements)
+        try super.init(elem: elem)
     }
     
-    static func mapSchemaElementsToSchemas (schemaElements: [CWXMLElement], targetNamespace: String) throws ->[Schema] {
+    static func mapSchemaElementsToSchemas (schemaElements: [CWXMLElement]) throws ->[Schema] {
         return try schemaElements.map() {
             elem in
+            let targetNamespace = elem.attribute(forName: "targetNamespace")
             return try Schema (elem: elem, targetNamespace: targetNamespace)
         }
+    }
+    
+    func findObjectInSchema (name: String, namespace: String?, type: SchemaObject.Type?) -> SchemaObject? {
+        for schema in schemas {
+            if let schemaElement = schema.findObject (name: name, namespace: namespace, type: type) {
+                return schemaElement
+            }
+        }
+        return nil
     }
 }
 
@@ -278,10 +302,10 @@ class WebService {
         self.targetNamespaceURI = root.attribute(forName: "targetNamespace") ?? ""
         
         let typesElement = try WebService.getSingleChild(elem: root, localChildName: "types", uri: wsdlUri, error: "Single 'types' element expected")
-        types = try Types (targetNamespace: targetNamespaceURI, elem: typesElement)
+        types = try Types (elem: typesElement)
         
         let messageElements = root.elements(forLocalName: "message", namespaceUri: wsdlUri)
-        messages = try WebService.mapElementsToMessages(elements: messageElements, targetNamespace: targetNamespaceURI, wsdlURI: wsdlUri)
+        messages = try WebService.mapElementsToMessages(elements: messageElements, targetNamespace: targetNamespaceURI, wsdlURI: wsdlUri, types: types)
         
         let portTypeElement = try WebService.getSingleChild(elem: root, localChildName: "portType", uri: wsdlUri, error: "Single 'portType' element expected")
         portType = try PortType(targetNamespace: targetNamespaceURI, elem: portTypeElement, wsdlUri: wsdlUri, messages: messages)
@@ -293,10 +317,10 @@ class WebService {
         service = try Service (targetNamespace: targetNamespaceURI, elem: serviceElement, wsdlUri: wsdlUri, bindings: bindings)
     }
     
-    static private func mapElementsToMessages (elements: [CWXMLElement], targetNamespace: String, wsdlURI : String) throws -> [Message] {
+    static private func mapElementsToMessages (elements: [CWXMLElement], targetNamespace: String, wsdlURI : String, types: Types) throws -> [Message] {
         return try elements.map() {
             elem in
-            return try Message (targetNamespace: targetNamespace, elem: elem, wsdlUri: wsdlURI)
+            return try Message (elem: elem, targetNamespace: targetNamespace, wsdlUri: wsdlURI, types: types)
         }
     }
     

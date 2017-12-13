@@ -1,0 +1,11 @@
+framework module CWPrettyXML {
+  umbrella header "CWPrettyXML.h"
+
+  export *
+  module * { export * }
+}
+
+module CWPrettyXML.Swift {
+    header "CWPrettyXML-Swift.h"
+    requires objc
+}

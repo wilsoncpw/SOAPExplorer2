@@ -7,13 +7,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>CWXML</string>
+	<string>CWPrettyXML</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.colinwilson.CWXML</string>
+	<string>com.colinwilson.CWPrettyXML</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>CWXML</string>
+	<string>CWPrettyXML</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
