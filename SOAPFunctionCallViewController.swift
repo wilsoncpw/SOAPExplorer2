@@ -12,7 +12,8 @@ import CWPrettyXML
 
 class SOAPFunctionCallViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     
-    var minCellWidth: CGFloat = 0
+    var minRequestCellWidth: CGFloat = 0
+    var minResponseCellWidth: CGFloat = 0
     var currentRequestDoc: CWXMLDocument?
     var currentResponseDoc: CWXMLDocument?
     var currentWebService: WebService?
@@ -61,7 +62,7 @@ class SOAPFunctionCallViewController: NSViewController, NSTableViewDataSource, N
             
             let requestDoc = CWXMLDocument ()
             do {
-                let requestElem = CWXMLElement (name: operation.name, attributes: ["xmlns": inputMessage.namespace])
+                let requestElem = CWXMLElement (name: "Body") //, attributes: ["xmlns": inputMessage.namespace])
                 try requestDoc.setRootElement(elem: requestElem)
 
                 
@@ -85,7 +86,7 @@ class SOAPFunctionCallViewController: NSViewController, NSTableViewDataSource, N
             if let outputMessage = outputMessage {
                 let responseDoc = CWXMLDocument ()
                 do {
-                    let responseElem = CWXMLElement (name: operation.name, attributes: ["xmlns": outputMessage.namespace])
+                    let responseElem = CWXMLElement (name: "Body") //, attributes: ["xmlns": outputMessage.namespace])
                     try responseDoc.setRootElement(elem: responseElem)
                     
                     
@@ -127,6 +128,9 @@ class SOAPFunctionCallViewController: NSViewController, NSTableViewDataSource, N
         } else {
             currentResponsePrettyNodeMap = nil
         }
+        
+        minRequestCellWidth = 0
+        minResponseCellWidth = 0
     }
     
     private func getPrettyNodeMapForTable (table: NSTableView) -> PrettyNodeMap? {
@@ -167,15 +171,20 @@ class SOAPFunctionCallViewController: NSViewController, NSTableViewDataSource, N
             
             let w = rv.size ().width + CGFloat (rv.string.count) // Goodness knows why we need to add the string length (!)
             
-            
-            if w > minCellWidth {
-                minCellWidth = w
-                tableColumn?.width = w
+            if tableView === SOAPRequestXMLTable {
+                if w > minRequestCellWidth {
+                    minRequestCellWidth = w
+                    tableColumn?.width = w
+                }
+            } else {
+                if w > minResponseCellWidth {
+                    minResponseCellWidth = w
+                    tableColumn?.width = w
+                }
             }
             return rv
         } else {
             return "??"
         }
     }
-    
 }

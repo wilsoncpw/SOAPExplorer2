@@ -20,14 +20,14 @@
 		26407D7B1F956650007E8512 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26407D791F956650007E8512 /* Main.storyboard */; };
 		26407D831F9570E2007E8512 /* ServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26407D821F9570E2007E8512 /* ServiceViewController.swift */; };
 		26502A681F9A2EC5002C10F4 /* XMLSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26502A671F9A2EC5002C10F4 /* XMLSchema.swift */; };
+		26688D9F1FE967320074AC79 /* CWXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26688D9E1FE967320074AC79 /* CWXML.framework */; };
+		26688DA01FE967320074AC79 /* CWXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 26688D9E1FE967320074AC79 /* CWXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		267987AE1FCD72000029C44C /* SOAPFunctionCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267987AD1FCD72000029C44C /* SOAPFunctionCallViewController.swift */; };
 		267987D71FCF1E130029C44C /* XSDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267987D61FCF1E130029C44C /* XSDTypes.swift */; };
 		267987DB1FCF23660029C44C /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267987DA1FCF23660029C44C /* MainWindow.swift */; };
 		269D0AD41FD704FA00C35042 /* CWCollections.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 269D0AD11FD704F900C35042 /* CWCollections.framework */; };
 		269D0AD51FD704FA00C35042 /* CWCollections.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 269D0AD11FD704F900C35042 /* CWCollections.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		26D1EB831F9622790050ED1F /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D1EB821F9622790050ED1F /* WebService.swift */; };
-		26D436EE1FDFF62600E7EE42 /* CWXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D436EC1FDFF62600E7EE42 /* CWXML.framework */; };
-		26D436EF1FDFF62600E7EE42 /* CWXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 26D436EC1FDFF62600E7EE42 /* CWXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		26D436F01FDFF62600E7EE42 /* CWPrettyXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D436ED1FDFF62600E7EE42 /* CWPrettyXML.framework */; };
 		26D436F11FDFF62600E7EE42 /* CWPrettyXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 26D436ED1FDFF62600E7EE42 /* CWPrettyXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -39,7 +39,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				26D436EF1FDFF62600E7EE42 /* CWXML.framework in Embed Frameworks */,
+				26688DA01FE967320074AC79 /* CWXML.framework in Embed Frameworks */,
 				26D436F11FDFF62600E7EE42 /* CWPrettyXML.framework in Embed Frameworks */,
 				269D0AD51FD704FA00C35042 /* CWCollections.framework in Embed Frameworks */,
 			);
@@ -62,6 +62,7 @@
 		26407D7A1F956650007E8512 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SOAPExplorer2/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		26407D821F9570E2007E8512 /* ServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewController.swift; sourceTree = "<group>"; };
 		26502A671F9A2EC5002C10F4 /* XMLSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLSchema.swift; sourceTree = "<group>"; };
+		26688D9E1FE967320074AC79 /* CWXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CWXML.framework; sourceTree = "<group>"; };
 		267987AD1FCD72000029C44C /* SOAPFunctionCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOAPFunctionCallViewController.swift; sourceTree = "<group>"; };
 		267987D61FCF1E130029C44C /* XSDTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSDTypes.swift; sourceTree = "<group>"; };
 		267987DA1FCF23660029C44C /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
@@ -70,7 +71,6 @@
 		26B6E29E1ED5A18900374AF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SOAPExplorer2/Info.plist; sourceTree = "<group>"; };
 		26B6E2A41ED5A19E00374AF4 /* SOAPExplorer2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SOAPExplorer2.entitlements; path = SOAPExplorer2/SOAPExplorer2.entitlements; sourceTree = "<group>"; };
 		26D1EB821F9622790050ED1F /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
-		26D436EC1FDFF62600E7EE42 /* CWXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CWXML.framework; sourceTree = "<group>"; };
 		26D436ED1FDFF62600E7EE42 /* CWPrettyXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CWPrettyXML.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26D436EE1FDFF62600E7EE42 /* CWXML.framework in Frameworks */,
+				26688D9F1FE967320074AC79 /* CWXML.framework in Frameworks */,
 				26D436F01FDFF62600E7EE42 /* CWPrettyXML.framework in Frameworks */,
 				269D0AD41FD704FA00C35042 /* CWCollections.framework in Frameworks */,
 			);
@@ -91,8 +91,8 @@
 		26B6E2891ED5A18900374AF4 = {
 			isa = PBXGroup;
 			children = (
+				26688D9E1FE967320074AC79 /* CWXML.framework */,
 				26D436ED1FDFF62600E7EE42 /* CWPrettyXML.framework */,
-				26D436EC1FDFF62600E7EE42 /* CWXML.framework */,
 				269D0AD11FD704F900C35042 /* CWCollections.framework */,
 				26B6E2941ED5A18900374AF4 /* SOAPExplorer2 */,
 				26B6E2931ED5A18900374AF4 /* Products */,
