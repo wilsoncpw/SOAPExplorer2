@@ -11,12 +11,12 @@ import CWXML
 
 let soapExplorerData = SOAPExplorer2Data.instance
 
-protocol ImportXSDDelegate {
+protocol ImportXSDDelegate: NSObjectProtocol {
     func getURLForXSD (fileName: String, suggessted: URL?) -> URL?
 }
 
 class SOAPExplorer2Data {
-    var importXSDDelegate : ImportXSDDelegate?
+    weak var importXSDDelegate : ImportXSDDelegate?
     
     static let instance = SOAPExplorer2Data ()
     
