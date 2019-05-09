@@ -89,8 +89,6 @@ public class SchemaObject {
                 try elements.append(SchemaSimpleType (elem:c, targetNamespace: targetNamespace))
             case "union":
                 try elements.append(SchemaUnion (elem:c, targetNamespace: targetNamespace))
-            case "restriction":
-                try elements.append(SchemaRestriction (elem: c, targetNamespace: targetNamespace))
             case "enumeration":
                 if let r = self as? SchemaRestriction {
                     try elements.append(SchemaEnumeration (elem: c, targetNamespace: targetNamespace, baseType: r.base))
@@ -133,7 +131,7 @@ public class SchemaObject {
         }
         
         if let query = schemaURL.query {
-            if var idx = query.index(of: "=") {
+            if var idx = query.firstIndex(of: "=") {
                 idx = query.index(idx, offsetBy: 1)
                 let ext = String (query [idx...])
                 schemaURL.deletePathExtension()

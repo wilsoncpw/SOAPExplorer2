@@ -13,6 +13,6 @@ class MainWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         window?.titleVisibility = .hidden
-        window?.setFrameAutosaveName(NSWindow.FrameAutosaveName ("SoapExplorer2")) // Doesn't work if you set it in IB (!)
+        window?.setFrameAutosaveName("SoapExplorer2") // Doesn't work if you set it in IB (!)
     }
 }
